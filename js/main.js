@@ -20,7 +20,7 @@ const countdownAudio = document.querySelector("#countdown-audio");
 const secondsElement = document.querySelector("#seconds");
 const items = document.querySelectorAll(".deadline-format h4");
 
-const futureDate = new Date(2022, 0, 11, 12, 00, 00);
+const futureDate = new Date(2022, 0, 11, 11, 52, 00);
 const year = futureDate.getFullYear();
 const month = months[futureDate.getMonth()];
 const date = futureDate.getDate();
