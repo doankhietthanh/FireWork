@@ -108,4 +108,7 @@ form {
     .deadline .deadline-format > span {
         font-size: 18px;
     }
+    .firework:after {
+        content: none;
+    }
 }
