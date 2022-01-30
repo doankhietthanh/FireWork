@@ -12,7 +12,7 @@ body {
     align-items: center;
 }
 
-body:after {
+.firework:after {
     content: url("https://i.pinimg.com/originals/a1/e6/00/a1e60081144310aa9e4b2536dd484585.jpg");
     mix-blend-mode: multiply;
     position: absolute;
@@ -25,12 +25,23 @@ body:after {
 h4 {
     font-size: 40px;
 }
+
+.countdown-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 800px;
+    height: 100vh;
+    justify-content: center;
+    text-align: center;
+}
 .firework {
     display: none;
 }
 
 .deadline {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .deadline-format {
@@ -77,4 +88,20 @@ h4 {
 form {
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .deadline {
+        flex-direction: column;
+    }
+    .deadline .deadline-format {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .deadline .deadline-format > span {
+        font-size: 18px;
+    }
 }
