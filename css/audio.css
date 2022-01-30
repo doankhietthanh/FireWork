@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap");
 :root {
     --primary-color: #ec1f55;
     --text-color: #333;
@@ -55,8 +56,9 @@ header h4 {
 }
 
 header h2 {
-    color: var(--text-color);
-    font-size: 20px;
+    font-family: "Josefin Sans", sans-serif;
+    color: #d3d3d3;
+    font-size: 22px;
 }
 
 /* CD */
