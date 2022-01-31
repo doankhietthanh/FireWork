@@ -1,33 +1,17 @@
-"use strict";
-
-var months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-var songs = [
-  {
-    name: "Con Bướm Xuân",
-    singer: "Hồ Quang Hiếu",
-    path: "https://aredir.nixcdn.com/NhacCuaTui200/NgayTetQueEm-HoNgocHa-VMusic-Min_3kpfq.mp3?st=4U7CO_i2F036MqttZ41Z2w&e=1643648359",
-    image:
-      "https://avatar-ex-swe.nixcdn.com/song/2020/01/20/3/e/d/c/1579487864483.jpg",
-  },
+const songs = [
   {
     name: "Ngày Tết Quê Em",
     singer: "Hồ Ngọc Hà",
-    path: "https://c1-ex-swe.nixcdn.com/NhacCuaTui1024/BuocQuaNhau-Vu-7120388.mp3?st=I9W59X1Odyi9QRGTehWfHg&e=1638708688",
+    path: "https://aredir.nixcdn.com/NhacCuaTui200/NgayTetQueEm-HoNgocHa-VMusic-Min_3kpfq.mp3?st=4U7CO_i2F036MqttZ41Z2w&e=1643648359",
     image:
       "https://avatar-ex-swe.nixcdn.com/singer/avatar/2020/08/14/5/1/1/9/1597380071736_600.jpg",
+  },
+  {
+    name: "Con Bướm Xuân",
+    singer: "Hồ Quang Hiếu",
+    path: "https://aredir.nixcdn.com/NhacCuaTui926/ConBuomXuan-HoQuangHieu-2577880.mp3?st=xSWGefxY0P9da_T6YMZhOw&e=1643708690",
+    image:
+      "https://avatar-ex-swe.nixcdn.com/song/2020/01/20/3/e/d/c/1579487864483.jpg",
   },
   {
     name: "Muộn Rồi Mà Sao Còn",
@@ -87,58 +71,61 @@ var songs = [
   },
 ];
 
-var $ = document.querySelector.bind(document);
-var $$ = document.querySelectorAll.bind(document);
-var PLAY_STORE_KEY = "playStore";
-var player = $(".player");
-var playlist = $(".playlist");
-var progress = $(".progress");
-var cd = $(".cd");
-var heading = $("header h2");
-var cdThumb = $(".cd-thumb");
-var audio = $("#audio");
-var playBtn = $(".btn-toggle-play");
-var nextBtn = $(".btn-next");
-var prevBtn = $(".btn-prev");
-var repeatBtn = $(".btn-repeat");
-var randomBtn = $(".btn-random");
-var isPlaying = false;
-var isRandom = false;
-var isRepeat = false;
-var currentIndex = 0;
-var firework = $(".firework");
-var container = $(".countdown-container");
-var footer = $("footer");
-var countdownAudio = $("#countdown-audio");
-var secondsElement = $("#seconds");
-var items = $$(".deadline-format h4");
-var timeNow = new Date().getTime();
-var futureDate = new Date(timeNow + 60000);
-var year = futureDate.getFullYear();
-var month = months[futureDate.getMonth()];
-var date = futureDate.getDate();
-var hour = futureDate.getHours();
-var minute = futureDate.getMinutes();
-var futureTime = futureDate.getTime();
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 
-var getTime = function getTime() {
-  var currentTime = new Date().getTime();
-  var time = futureTime - currentTime;
-  var oneMinute = 60 * 1000;
-  var oneHour = oneMinute * 60;
-  var oneDay = oneHour * 24;
-  var days = Math.floor(time / oneDay);
-  var hours = Math.floor((time % oneDay) / oneHour);
-  var minutes = Math.floor((time % oneHour) / oneMinute);
-  var seconds = Math.floor((time % oneMinute) / 1000);
-  var value = [days, hours, minutes, seconds];
+const player = $(".player");
+const playlist = $(".playlist");
+const progress = $(".progress");
+const cd = $(".cd");
+const heading = $("header h2");
+const cdThumb = $(".cd-thumb");
+const audio = $("#audio");
+const playBtn = $(".btn-toggle-play");
+const nextBtn = $(".btn-next");
+const prevBtn = $(".btn-prev");
+const repeatBtn = $(".btn-repeat");
+const randomBtn = $(".btn-random");
 
-  var formatValue = function formatValue(item) {
-    if (item < 10) return (item = "0".concat(item));
+let isPlaying = false;
+let isRandom = false;
+let isRepeat = false;
+
+let currentIndex = 0;
+
+const firework = $(".firework");
+const container = $(".countdown-container");
+const footer = $("footer");
+const countdownAudio = $("#countdown-audio");
+const secondsElement = $("#seconds");
+const items = $$(".deadline-format h4");
+
+// const timeNow = new Date().getTime();
+const futureDate = new Date(2022, 1, 1, 0, 0, 0);
+const futureTime = futureDate.getTime();
+
+const getTime = () => {
+  const currentTime = new Date().getTime();
+
+  const time = futureTime - currentTime;
+
+  const oneMinute = 60 * 1000;
+  const oneHour = oneMinute * 60;
+  const oneDay = oneHour * 24;
+
+  const days = Math.floor(time / oneDay);
+  const hours = Math.floor((time % oneDay) / oneHour);
+  const minutes = Math.floor((time % oneHour) / oneMinute);
+  const seconds = Math.floor((time % oneMinute) / 1000);
+
+  const value = [days, hours, minutes, seconds];
+
+  const formatValue = (item) => {
+    if (item < 10) return (item = `0${item}`);
     return item;
   };
 
-  items.forEach(function (item, index) {
+  items.forEach((item, index) => {
     item.innerHTML = formatValue(value[index]);
   });
 
@@ -153,81 +140,92 @@ var getTime = function getTime() {
 
   if (time < 1 * 1000) {
     clearInterval(countdown);
+
     container.style.display = "none";
     footer.style.display = "none";
     firework.style.display = "block";
+
     addScript("./js/firework.js");
   }
 };
 
-var addScript = function addScript(src) {
+const addScript = (src) => {
   var s = document.createElement("script");
   s.setAttribute("src", src);
   document.body.appendChild(s);
 };
 
-var countdown = setInterval(getTime, 1000);
+let countdown = setInterval(getTime, 1000);
+
 getTime();
-var cdWidth = cd.offsetWidth;
-var cdThumbAnimate = cdThumb.animate(
-  [
-    {
-      transform: "rotate(360deg)",
-    },
-  ],
-  {
-    duration: 10000,
-    iterations: Infinity,
-  }
-);
+
+const cdWidth = cd.offsetWidth;
+const cdThumbAnimate = cdThumb.animate([{ transform: "rotate(360deg)" }], {
+  duration: 10000,
+  iterations: Infinity,
+});
 cdThumbAnimate.pause();
-playBtn.addEventListener("click", function () {
+
+playBtn.addEventListener("click", () => {
   if (isPlaying) {
     audio.pause();
   } else {
     audio.play();
   }
 });
-audio.addEventListener("play", function () {
+
+audio.addEventListener("play", () => {
   isPlaying = true;
   player.classList.add("playing");
   cdThumbAnimate.play();
 });
-audio.addEventListener("pause", function () {
+
+audio.addEventListener("pause", () => {
   isPlaying = false;
   player.classList.remove("playing");
   cdThumbAnimate.pause();
-}); // Xử lí chỉnh time bài hát
+});
 
-audio.addEventListener("timeupdate", function () {
-  var progressPercent = Math.floor((audio.currentTime / audio.duration) * 100);
+// Xử lí chỉnh time bài hát
+audio.addEventListener("timeupdate", () => {
+  const progressPercent = Math.floor(
+    (audio.currentTime / audio.duration) * 100
+  );
   progress.value = progressPercent;
 });
-progress.addEventListener("change", function (e) {
-  audio.currentTime = (e.target.value / 100) * audio.duration;
-}); //Khi next, prev, random bài hát
 
-nextBtn.addEventListener("click", function () {
+progress.addEventListener("change", (e) => {
+  audio.currentTime = (e.target.value / 100) * audio.duration;
+});
+
+//Khi next, prev, random bài hát
+nextBtn.addEventListener("click", () => {
   nextSong();
   audio.play();
 });
-prevBtn.addEventListener("click", function () {
+
+prevBtn.addEventListener("click", () => {
   prevSong();
   audio.play();
 });
-randomBtn.addEventListener("click", function () {
+
+randomBtn.addEventListener("click", () => {
   isRandom = !isRandom;
   randomBtn.classList.toggle("active", isRandom);
+
   isRepeat = false;
   repeatBtn.classList.toggle("active", isRepeat);
 });
-repeatBtn.addEventListener("click", function () {
+
+repeatBtn.addEventListener("click", () => {
   isRepeat = !isRepeat;
   repeatBtn.classList.toggle("active", isRepeat);
+
   isRandom = false;
   randomBtn.classList.toggle("active", isRandom);
 });
-audio.addEventListener("ended", function () {
+
+audio.addEventListener("ended", () => {
   if (isRepeat) {
     audio.play();
   } else {
@@ -237,26 +235,20 @@ audio.addEventListener("ended", function () {
   if (isRandom) {
     randomSong();
   }
-
   audio.play();
 });
 
 function loadCurrentSong() {
   heading.textContent = songs[currentIndex].name;
-  cdThumb.style.backgroundImage = 'url("'.concat(
-    songs[currentIndex].image,
-    '")'
-  );
+  cdThumb.style.backgroundImage = `url("${songs[currentIndex].image}")`;
   audio.src = songs[currentIndex].path;
 }
 
 function nextSong() {
   currentIndex++;
-
   if (currentIndex >= songs.length) {
     currentIndex = 0;
   }
-
   loadCurrentSong();
 }
 
@@ -264,14 +256,12 @@ function prevSong() {
   if (currentIndex <= 0) {
     currentIndex = songs.length;
   }
-
   currentIndex--;
   loadCurrentSong();
 }
 
 function randomSong() {
-  var newIndex;
-
+  let newIndex;
   do {
     newIndex = Math.floor(Math.random() * songs.length);
   } while (newIndex === currentIndex);
