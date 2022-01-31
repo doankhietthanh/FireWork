@@ -86,6 +86,7 @@ var songs = [
       "https://avatar-nct.nixcdn.com/song/2021/07/16/f/4/9/8/1626425507034.jpg",
   },
 ];
+
 var $ = document.querySelector.bind(document);
 var $$ = document.querySelectorAll.bind(document);
 var PLAY_STORE_KEY = "playStore";
@@ -247,13 +248,7 @@ function loadCurrentSong() {
     '")'
   );
   audio.src = songs[currentIndex].path;
-} // function loadConfig() {
-//   currentIndex = config.currentIndex;
-//   isRandom = config.isRandom;
-//   isRepeat = config.isRepeat;
-//   repeatBtn.classList.toggle("active", isRepeat);
-//   randomBtn.classList.toggle("active", isRandom);
-// }
+}
 
 function nextSong() {
   currentIndex++;
